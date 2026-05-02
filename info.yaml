@@ -1,9 +1,9 @@
 # Tiny Tapeout project information
 project:
-  title:        "Logic-Locked 8-Bit RNG"      # Project title
+  title:        "Logic-Locked 3-Bit RNG"      # Project title
   author:       "Your Name"      # Your name
   discord:      "yourdiscord"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  "An 8-bit LFSR-based random number generator with sample control and key-based logic locking."
+  description:  "A 3-bit LFSR-based random number generator with sample control and key-based logic locking."
   language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
   clock_hz:     1000000       # Clock frequency in Hz (or 0 if not applicable)
 
@@ -26,21 +26,21 @@ pinout:
   ui[0]: "MAX_0"
   ui[1]: "MAX_1"
   ui[2]: "MAX_2"
-  ui[3]: "MAX_3"
-  ui[4]: "MAX_4"
-  ui[5]: "MAX_5"
-  ui[6]: "MAX_6"
-  ui[7]: "MAX_7"
+  ui[3]: ""
+  ui[4]: ""
+  ui[5]: ""
+  ui[6]: ""
+  ui[7]: ""
 
   # Outputs
   uo[0]: "RNG_0"
   uo[1]: "RNG_1"
   uo[2]: "RNG_2"
-  uo[3]: "RNG_3"
-  uo[4]: "RNG_4"
-  uo[5]: "RNG_5"
-  uo[6]: "RNG_6"
-  uo[7]: "RNG_7"
+  uo[3]: ""
+  uo[4]: ""
+  uo[5]: ""
+  uo[6]: ""
+  uo[7]: ""
 
   # Bidirectional pins
   uio[0]: "KEY_0"
