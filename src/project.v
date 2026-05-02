@@ -20,18 +20,19 @@ module tt_um_gitragi_rng (
   // Internal signals
   // =========================
 
-  reg  [7:0] lfsr;
-  reg  [7:0] sampled;
+  reg  [2:0] lfsr;
+  reg  [2:0] sampled;
 
-  wire [7:0] max_val;
+  wire [2:0] max_val;
   wire [1:0] key;
   wire       sample;
 
   wire feedback;
+  wire [2:0] correct_out;
 
   localparam [1:0] CORRECT_KEY = 2'b10;
 
-  assign max_val = ui_in;
+  assign max_val = ui_in[2:0];
   assign key     = uio_in[1:0];
   assign sample  = uio_in[2];
 
@@ -39,18 +40,18 @@ module tt_um_gitragi_rng (
   // LFSR with logic locking
   // =========================
 
-  assign feedback = lfsr[7] ^ lfsr[5] ^ lfsr[4] ^ lfsr[3];
+  assign feedback = lfsr[2] ^ lfsr[1];
 
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n)
-      lfsr <= 8'b00000001;  // must not be zero
+      lfsr <= 3'b001;  // must not be zero
     else begin
       if (key == CORRECT_KEY)
         // Normal LFSR
-        lfsr <= {lfsr[6:0], feedback};
+        lfsr <= {lfsr[1:0], feedback};
       else
         // Poisoned: drain to zero
-        lfsr <= {lfsr[6:0], 1'b0};
+        lfsr <= {lfsr[1:0], 1'b0};
     end
   end
 
@@ -60,7 +61,7 @@ module tt_um_gitragi_rng (
 
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n)
-      sampled <= 8'b00000001;
+      sampled <= 3'b001;
     else if (sample)
       sampled <= lfsr;
   end
@@ -69,14 +70,14 @@ module tt_um_gitragi_rng (
   // Range limiting (modulo)
   // =========================
 
-  wire [7:0] correct_out;
-  assign correct_out = (max_val == 0) ? 8'd0 : (sampled % (max_val + 1));
+  assign correct_out = (max_val == 3'd0) ? 3'd0 : (sampled % (max_val + 3'd1));
 
   // =========================
   // Output
   // =========================
 
-  assign uo_out = correct_out;
+  assign uo_out[2:0] = correct_out;
+  assign uo_out[7:3] = 5'b00000;
 
   // =========================
   // Unused IOs
@@ -86,6 +87,6 @@ module tt_um_gitragi_rng (
   assign uio_oe  = 8'b00000000;
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, uio_in[7:3], 1'b0};
+  wire _unused = &{ena, ui_in[7:3], uio_in[7:3], 1'b0};
 
 endmodule
