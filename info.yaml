@@ -1,7 +1,7 @@
 # Tiny Tapeout project information
 project:
   title:        "Logic-Locked 3-Bit RNG"      # Project title
-  author:       ""      # Your name
+  author:       "Ragib"      # Your name
   discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
   description:  "A 3-bit LFSR-based random number generator with sample control and key-based logic locking."
   language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
